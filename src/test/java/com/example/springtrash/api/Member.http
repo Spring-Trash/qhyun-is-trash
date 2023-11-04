@@ -1,0 +1,24 @@
+
+### 회원 가입 - 정상
+POST localhost:8080/members
+Content-Type: application/json
+
+{
+  "loginId" : "poobao",
+  "password" : "1234",
+  "email" : "poo@bao.com",
+  "name" : "푸바오",
+  "nickname" : "나는팬더"
+}
+
+### 회원 가입 - 실패 필드가 비어있음.
+POST localhost:8080/members
+Content-Type: application/json
+
+{
+  "loginId" : "",
+  "password" : "",
+  "email" : "",
+  "name" : "",
+  "nickname" : ""
+}
