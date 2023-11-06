@@ -13,11 +13,8 @@ import com.example.springtrash.member.dto.MemberLogin;
 import com.example.springtrash.member.exception.MemberErrorCode;
 import com.example.springtrash.member.service.port.MemberRepository;
 import com.example.springtrash.mock.FakeMemberRepository;
-
 import java.time.LocalDateTime;
 import java.util.Optional;
-
-import org.assertj.core.api.LocalDateTimeAssert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -49,7 +46,7 @@ class MemberServiceTest {
 
         // when
         memberService.join(dto);
-        Optional<Member> sut = memberRepository.findById(1);
+        Optional<Member> sut = memberRepository.findByLoginId("foo");
         // then
         assertThat(sut).isNotEmpty();
         Member member = sut.get();

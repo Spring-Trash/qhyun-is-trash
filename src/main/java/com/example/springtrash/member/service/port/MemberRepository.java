@@ -10,7 +10,7 @@ public interface MemberRepository {
 
     void join(Member member);
 
-    Optional<Member> findById(Integer id);
+    Optional<Member> findById(Long id);
 
     Optional<Member> findByLoginId(String loginId);
 
