@@ -41,4 +41,19 @@ public class Member {
                 .joinDate(LocalDateTime.now())
                 .build();
     }
+
+    public Member login() {
+        return Member.builder()
+                .loginId(this.getLoginId())
+                .email(this.getEmail())
+                .nickname(this.getNickname())
+                .password(this.getPassword())
+                .name(this.getName())
+                .role(this.getRole())
+                .status(this.getStatus())
+                .joinDate(this.getJoinDate())
+                .lastLoginDate(LocalDateTime.now())
+                .lastModifiedDate(this.getLastModifiedDate())
+                .build();
+    }
 }

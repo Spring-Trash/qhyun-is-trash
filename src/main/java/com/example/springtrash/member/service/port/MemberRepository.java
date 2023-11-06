@@ -12,4 +12,8 @@ public interface MemberRepository {
 
     Optional<Member> findById(Integer id);
 
+    Optional<Member> findByLoginId(String loginId);
+
+    void login(Member member);
+
 }

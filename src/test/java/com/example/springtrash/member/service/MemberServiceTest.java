@@ -9,10 +9,15 @@ import com.example.springtrash.member.domain.Member;
 import com.example.springtrash.member.domain.MemberRole;
 import com.example.springtrash.member.domain.MemberStatus;
 import com.example.springtrash.member.dto.MemberCreate;
+import com.example.springtrash.member.dto.MemberLogin;
 import com.example.springtrash.member.exception.MemberErrorCode;
 import com.example.springtrash.member.service.port.MemberRepository;
 import com.example.springtrash.mock.FakeMemberRepository;
+
+import java.time.LocalDateTime;
 import java.util.Optional;
+
+import org.assertj.core.api.LocalDateTimeAssert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -74,5 +79,66 @@ class MemberServiceTest {
         assertThatThrownBy(() -> memberService.join(dto))
                 .isInstanceOf(ConflictException.class)
                 .hasFieldOrPropertyWithValue("errorCode", MemberErrorCode.LOGIN_ID_DUPLICATED);
+    }
+
+
+    @DisplayName("[로그인 성공] 적절한 ID, PASSWORD를 입력하면 로그인에 성공한다.")
+    @Test
+    void loginSuccessTest(){
+        // given
+
+        LocalDateTime now = LocalDateTime.now();
+        MemberCreate dto = MemberCreate.builder()
+                .loginId("foo")
+                .email("foo@bar.com")
+                .name("bar")
+                .nickname("foobar")
+                .password("1q2w3e4r!!")
+                .build();
+        memberService.join(dto);
+
+        MemberLogin request = MemberLogin.builder()
+                .loginId("foo")
+                .password("1q2w3e4r!!")
+                .build();
+
+        // when
+        Member sut = memberService.login(request);
+
+
+        // then
+        assertThat(sut.getLoginId()).isEqualTo("foo");
+        assertThat(sut.getEmail()).isEqualTo("foo@bar.com");
+        assertThat(sut.getName()).isEqualTo("bar");
+        assertThat(sut.getNickname()).isEqualTo("foobar");
+        assertThat(sut.getStatus()).isEqualTo(MemberStatus.ACTIVE);
+        assertThat(sut.getRole()).isEqualTo(MemberRole.USER);
+        assertThat(sut.getLastLoginDate()).isAfter(now);
+        assertThat(sut.getJoinDate()).isNotNull();
+    }
+
+
+    @DisplayName("[로그인 실패] ID와 PASSWORD가 맞지 않으면 예외가 터진다.")
+    @Test
+    void loginFailWrongIdOrPasswordTest(){
+        // given
+        MemberCreate dto = MemberCreate.builder()
+                .loginId("foo")
+                .email("foo@bar.com")
+                .name("bar")
+                .nickname("foobar")
+                .password("1q2w3e4r!!")
+                .build();
+        memberService.join(dto);
+
+        MemberLogin request = MemberLogin.builder()
+                .loginId("foo")
+                .password("1q2w3e4r")
+                .build();
+
+        // when
+        assertThatThrownBy(() ->memberService.login(request))
+                .isInstanceOf(ConflictException.class)
+                .hasFieldOrPropertyWithValue("errorCode", MemberErrorCode.WRONG_ID_OR_PASSWORD);
     }
 }

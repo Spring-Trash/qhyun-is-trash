@@ -1,7 +1,7 @@
 package com.example.springtrash.common.exception;
 
 
-import static com.example.springtrash.common.exception.GlobalErrorCode.FIELD_VALIDATION_ERROR;
+import static com.example.springtrash.common.exception.GlobalErrorCode.INVALID_FIELD_INPUT;
 
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +21,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(HttpServletRequest request){
-        return ResponseEntity.status(FIELD_VALIDATION_ERROR.getStatus())
-                .body(ErrorResponse.of(FIELD_VALIDATION_ERROR, request.getRequestURI()));
+        return ResponseEntity.status(INVALID_FIELD_INPUT.getStatus())
+                .body(ErrorResponse.of(INVALID_FIELD_INPUT, request.getRequestURI()));
     }
 
 }

@@ -5,6 +5,7 @@ import com.example.springtrash.member.domain.Member;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 @Mapper
 public interface MemberMapper {
@@ -16,4 +17,10 @@ public interface MemberMapper {
             + "values (#{loginId}, #{name}, #{password}, #{nickname}, #{email}, #{joinDate}, #{role}, #{status})")
     void join(Member member);
 
+
+    @Select("select * from members where login_id = #{loginId}")
+    Member findByLoginId(String loginId);
+
+    @Update("update members set last_login_date = #{lastLoginDate} where id = #{id}")
+    void login(Member member);
 }

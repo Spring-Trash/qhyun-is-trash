@@ -4,6 +4,7 @@ import com.example.springtrash.common.exception.ConflictException;
 import com.example.springtrash.member.controller.port.MemberService;
 import com.example.springtrash.member.domain.Member;
 import com.example.springtrash.member.dto.MemberCreate;
+import com.example.springtrash.member.dto.MemberLogin;
 import com.example.springtrash.member.exception.MemberErrorCode;
 import com.example.springtrash.member.service.port.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,23 @@ public class MemberServiceImpl implements MemberService {
         validateJoin(memberCreate);
         // join
         memberRepository.join(Member.create(memberCreate));
+    }
+
+    @Override
+    public Member login(MemberLogin memberLogin) {
+
+
+        Member member = memberRepository.findByLoginId(memberLogin.getLoginId())
+                .orElseThrow(() -> new ConflictException(MemberErrorCode.WRONG_ID_OR_PASSWORD));
+
+        if(!member.getPassword().equals(memberLogin.getPassword()))
+            throw new ConflictException(MemberErrorCode.WRONG_ID_OR_PASSWORD);
+
+        member = member.login();
+
+
+
+        return member;
     }
 
     private void validateJoin(MemberCreate memberCreate) {

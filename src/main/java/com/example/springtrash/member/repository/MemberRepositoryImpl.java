@@ -28,4 +28,14 @@ public class MemberRepositoryImpl implements MemberRepository {
     public Optional<Member> findById(Integer id) {
         return Optional.empty();
     }
+
+    @Override
+    public Optional<Member> findByLoginId(String loginId) {
+        return Optional.ofNullable(memberMapper.findByLoginId(loginId));
+    }
+
+    @Override
+    public void login(Member member) {
+        memberMapper.login(member);
+    }
 }

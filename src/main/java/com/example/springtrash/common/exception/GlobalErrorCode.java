@@ -10,7 +10,7 @@ import org.springframework.http.HttpStatus;
 public enum GlobalErrorCode implements ErrorCode {
 
 
-    FIELD_VALIDATION_ERROR(HttpStatus.BAD_REQUEST, "G-001", "입력하신 내용을 다시 확인해주세요.");
+    INVALID_FIELD_INPUT(HttpStatus.BAD_REQUEST, "G-001", "입력하신 내용을 다시 확인해주세요.");
 
 
     private final HttpStatus status;
