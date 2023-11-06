@@ -1,9 +1,10 @@
 package com.example.springtrash.member.service;
 
+import com.example.springtrash.common.exception.ConflictException;
 import com.example.springtrash.member.controller.port.MemberService;
 import com.example.springtrash.member.domain.Member;
 import com.example.springtrash.member.dto.MemberCreate;
-import com.example.springtrash.member.exception.MemberException;
+import com.example.springtrash.member.exception.MemberErrorCode;
 import com.example.springtrash.member.service.port.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ public class MemberServiceImpl implements MemberService {
 
     private void validateJoin(MemberCreate memberCreate) {
         if(memberRepository.isDuplicateId(memberCreate.getLoginId())){
-            throw MemberException.LOGIN_ID_DUPLICATE_EXCEPTION;
+            throw new ConflictException(MemberErrorCode.LOGIN_ID_DUPLICATED);
         }
     }
 }

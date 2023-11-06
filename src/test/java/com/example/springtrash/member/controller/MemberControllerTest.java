@@ -7,15 +7,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.example.springtrash.common.exception.ConflictException;
 import com.example.springtrash.common.exception.GlobalErrorCode;
 import com.example.springtrash.member.controller.port.MemberService;
 import com.example.springtrash.member.dto.MemberCreate;
 import com.example.springtrash.member.exception.MemberErrorCode;
-import com.example.springtrash.member.exception.MemberException;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.BDDMockito;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -90,7 +91,7 @@ class MemberControllerTest {
     @Test
     void signUpFailLoginIdDuplicatedTest  () throws Exception{
         //given
-        doThrow(MemberException.LOGIN_ID_DUPLICATE_EXCEPTION)
+        doThrow(new ConflictException(MemberErrorCode.LOGIN_ID_DUPLICATED))
                 .when(memberService)
                 .join(any());
 

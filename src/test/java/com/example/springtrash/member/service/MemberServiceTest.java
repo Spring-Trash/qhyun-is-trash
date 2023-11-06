@@ -3,13 +3,13 @@ package com.example.springtrash.member.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.example.springtrash.common.exception.ConflictException;
 import com.example.springtrash.member.controller.port.MemberService;
 import com.example.springtrash.member.domain.Member;
 import com.example.springtrash.member.domain.MemberRole;
 import com.example.springtrash.member.domain.MemberStatus;
 import com.example.springtrash.member.dto.MemberCreate;
 import com.example.springtrash.member.exception.MemberErrorCode;
-import com.example.springtrash.member.exception.MemberException;
 import com.example.springtrash.member.service.port.MemberRepository;
 import com.example.springtrash.mock.FakeMemberRepository;
 import java.util.Optional;
@@ -72,7 +72,7 @@ class MemberServiceTest {
 
         // when
         assertThatThrownBy(() -> memberService.join(dto))
-                .isInstanceOf(MemberException.class)
+                .isInstanceOf(ConflictException.class)
                 .hasFieldOrPropertyWithValue("errorCode", MemberErrorCode.LOGIN_ID_DUPLICATED);
     }
 }
