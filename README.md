@@ -172,17 +172,17 @@ body :
 
 
 
-#### E1. 인증 정보가 DB에 저장되지 않았을 때
+#### E1. 세션 정보가 DB에 조회되지 못했을 경우
 
 ```json
-status : 500 (IntenalServerError)
+status : 401 (UnAuthorized)
 body :
 {
   "timestamp" : "발생 시간 ex ) 2023-01-01T00:00:01"
-  "status" : 500
-  "error" : "SESSION_INFO_LOST"
-  "code" : "S-001"
-  "message" : "죄송합니다. 잠시 후 서비스를 이용해주세요."
+  "status" : 401
+  "error" : "UN_AUTHORIZED_ACCESS"
+  "code" : "G-002"
+  "message" : "인증되지 않은 접근입니다."
   "path" : "/members/my"
 }
 
