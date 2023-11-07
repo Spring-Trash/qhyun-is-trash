@@ -14,12 +14,9 @@ public class FakeMemberRepository implements MemberRepository {
 
     @Override
     public boolean isDuplicateId(String loginId) {
-
-        for (Member member : database.values()) {
-            if(member.getLoginId().equals(loginId))
-                return true;
-        }
-        return false;
+        return database.values().stream()
+                .anyMatch(member ->
+                        member.getLoginId().equalsIgnoreCase(loginId));
     }
 
     @Override
