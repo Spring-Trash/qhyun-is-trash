@@ -113,7 +113,7 @@ class MemberServiceTest {
         assertThat(sut.getNickname()).isEqualTo("foobar");
         assertThat(sut.getStatus()).isEqualTo(MemberStatus.ACTIVE);
         assertThat(sut.getRole()).isEqualTo(MemberRole.USER);
-        assertThat(sut.getLastLoginDate()).isAfter(now);
+        assertThat(sut.getLastLoginDate()).isAfterOrEqualTo(now);
         assertThat(sut.getJoinDate()).isNotNull();
     }
 

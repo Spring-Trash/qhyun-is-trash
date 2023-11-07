@@ -42,6 +42,7 @@ public class Member {
                 .build();
     }
 
+    // TODO LocalDateTime에 대한 명확한 Test가 어려움. 분리해야 할 생각도 해야 할 듯.
     public Member login() {
         return Member.builder()
                 .loginId(this.getLoginId())

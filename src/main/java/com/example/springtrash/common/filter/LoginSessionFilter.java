@@ -45,14 +45,14 @@ public class LoginSessionFilter  implements Filter {
 
         String uri = req.getRequestURI();
         log.info("uri : {}, method : {}", uri, method);
-        if (uri.equals("/members") && method.equals("post")) {
-            doFilter(request, response, chain);
+        if (uri.equals("/members") && method.equalsIgnoreCase("post")) {
+            chain.doFilter(request, response);
         }
-        if (uri.equals("/members/login")) {
-            doFilter(request, response, chain);
+        else if (uri.equals("/members/login")) {
+            chain.doFilter(request, response);
         }
         // 세션 정보 체크
-        if (req.getSession().getAttribute("userInfo") == null) {
+        else if (req.getSession().getAttribute("userInfo") == null) {
             // exception 내기
             res.setContentType(MediaType.APPLICATION_JSON_VALUE);
             res.setCharacterEncoding("UTF-8");
@@ -62,8 +62,10 @@ public class LoginSessionFilter  implements Filter {
             res.getWriter().println(body);
 
             return;
+        }else {
+
+            chain.doFilter(request, response);
         }
-        doFilter(request, response, chain);
     }
 
     @Override

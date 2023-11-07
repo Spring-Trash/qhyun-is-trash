@@ -37,6 +37,7 @@ class MemberTest {
         assertThat(sut.getJoinDate()).isNotNull();
     }
 
+    @DisplayName("[로그인 - 성공] 회원은 로그인을 하면 LastLoginDate가 변경된다.")
     @Test
     void loginTest(){
         // given
@@ -54,7 +55,7 @@ class MemberTest {
         Member sut = member.login();
 
         // then
-        assertThat(sut.getLastLoginDate()).isAfter(test);
+        assertThat(sut.getLastLoginDate()).isAfterOrEqualTo(test);
         assertThat(sut.getLoginId()).isEqualTo(member.getLoginId());
         assertThat(sut.getEmail()).isEqualTo(member.getEmail());
         assertThat(sut.getNickname()).isEqualTo(member.getNickname());

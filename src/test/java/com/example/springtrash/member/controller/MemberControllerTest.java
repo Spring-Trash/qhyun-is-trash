@@ -289,8 +289,6 @@ class MemberControllerTest {
     }
 
 
-    // FIXME 현재 무한대로 Filter를 반복해서 StackOverFlow 발생!
-    @Disabled
     @DisplayName("[내 정보 조회 - 실패] Session 정보가 DB에 존재하지 않는 경우")
     @Test
     void retrieveMyInfoFailSessionDataLostTest() throws Exception {
