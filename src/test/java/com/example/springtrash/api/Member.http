@@ -22,3 +22,8 @@ Content-Type: application/json
   "name" : "",
   "nickname" : ""
 }
+
+
+### 내 정보 조회
+
+GET localhost:8080/members/my

@@ -1,5 +1,6 @@
 package com.example.springtrash.common.exception;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Data;
@@ -11,6 +12,7 @@ import lombok.NoArgsConstructor;
 @Getter
 public class ErrorResponse {
 
+    @JsonFormat(pattern = "yyyy-MM-dd kk:mm:ss")
     private final LocalDateTime timestamp = LocalDateTime.now();
     private final int status;
     private final String error;

@@ -7,17 +7,10 @@ import org.springframework.http.HttpStatus;
 
 @RequiredArgsConstructor
 @Getter
-public enum GlobalErrorCode implements ErrorCode {
+public enum ServerErrorCode implements ErrorCode {
 
 
-    INVALID_FIELD_INPUT(HttpStatus.BAD_REQUEST, "G-001", "입력하신 내용을 다시 확인해주세요."),
-
-    UN_AUTHORIZED_ACCESS(HttpStatus.UNAUTHORIZED, "G-002", "인증되지 않은 접근입니다."),
-
-
-
-    ;
-
+    SESSION_INFO_LOST(HttpStatus.INTERNAL_SERVER_ERROR, "S-001", "세션 정보를 DB에서 조회할 수 없습니다..");
 
 
     private final HttpStatus status;
@@ -30,3 +23,4 @@ public enum GlobalErrorCode implements ErrorCode {
         return this.name();
     }
 }
+

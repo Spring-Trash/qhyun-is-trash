@@ -4,7 +4,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.example.springtrash.common.exception.ConflictException;
+import com.example.springtrash.common.exception.ServerErrorCode;
+import com.example.springtrash.common.exception.ServerException;
 import com.example.springtrash.member.controller.port.MemberService;
+import com.example.springtrash.member.controller.response.MemberSession;
 import com.example.springtrash.member.domain.Member;
 import com.example.springtrash.member.domain.MemberRole;
 import com.example.springtrash.member.domain.MemberStatus;
@@ -138,4 +141,53 @@ class MemberServiceTest {
                 .isInstanceOf(ConflictException.class)
                 .hasFieldOrPropertyWithValue("errorCode", MemberErrorCode.WRONG_ID_OR_PASSWORD);
     }
+
+
+
+    // 내 정보 조회
+    @DisplayName("[내 정보 조회] - 세션 정보로 회원 정보를 얻을 수 있다.")
+    @Test
+    void retrieveMyInfoSuccessTest () throws Exception{
+        //given
+        MemberCreate dto = MemberCreate.builder()
+                .loginId("foo")
+                .email("foo@bar.com")
+                .name("bar")
+                .nickname("foobar")
+                .password("1q2w3e4r!!")
+                .build();
+        memberService.join(dto);
+
+        MemberSession session = MemberSession.builder()
+                .loginId("foo")
+                .nickname("foobar")
+                .build();
+
+        //when
+        Member sut = memberService.retrieveMyInfo(session);
+        //then
+        assertThat(sut.getLoginId()).isEqualTo(session.getLoginId());
+        assertThat(sut.getNickname()).isEqualTo(session.getNickname());
+        assertThat(sut.getName()).isEqualTo(dto.getName());
+        assertThat(sut.getEmail()).isEqualTo(dto.getEmail());
+    }
+
+
+    @DisplayName("[내 정보 조회 - 실패] 세션 정보가 DB에 존재하지 않는다.")
+    @Test
+    void retrieveMyInfoFailSessionInfoLostTest(){
+        // given
+
+        MemberSession session = MemberSession.builder()
+                .loginId("foo")
+                .nickname("foobar")
+                .build();
+
+        // when
+        assertThatThrownBy(() ->memberService.retrieveMyInfo(session))
+                .isInstanceOf(ServerException.class)
+                .hasFieldOrPropertyWithValue("errorCode", ServerErrorCode.SESSION_INFO_LOST);
+    }
+
+
 }
