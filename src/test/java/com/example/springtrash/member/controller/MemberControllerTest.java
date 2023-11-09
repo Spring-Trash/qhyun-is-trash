@@ -25,7 +25,9 @@ import com.example.springtrash.member.dto.MemberCreate;
 import com.example.springtrash.member.dto.MemberLogin;
 import com.example.springtrash.member.exception.MemberErrorCode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.time.LocalDateTime;
+
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -316,4 +318,20 @@ class MemberControllerTest {
                         SESSION_INFO_LOST.getMessage()))
                 .andDo(print());
     }
+
+
+  @DisplayName("[회원 정보 수정 - 성공] 닉네임, 비밀번호, 상태메세지 필드에 값이 있으면 정보가 수정된다.")
+  @Test
+  void modifyMyInfoSuccessTest() throws Exception{
+      //given
+
+
+      //when
+
+
+      //then
+
+  }
+
+
 }

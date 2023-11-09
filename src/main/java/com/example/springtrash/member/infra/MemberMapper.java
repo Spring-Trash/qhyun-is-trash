@@ -21,6 +21,6 @@ public interface MemberMapper {
     @Select("select * from members where login_id = #{loginId}")
     Member findByLoginId(String loginId);
 
-    @Update("update members set last_login_date = #{lastLoginDate} where id = #{id}")
+    @Update("update members set last_login_date = #{lastLoginDate} where member_id = #{id}")
     void login(Member member);
 }

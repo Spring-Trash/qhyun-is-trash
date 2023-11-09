@@ -30,6 +30,7 @@ public class MemberServiceImpl implements MemberService {
         memberRepository.join(Member.create(memberCreate));
     }
 
+    @Transactional
     @Override
     public Member login(MemberLogin memberLogin) {
 
