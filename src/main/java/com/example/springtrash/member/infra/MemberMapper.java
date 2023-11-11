@@ -23,4 +23,8 @@ public interface MemberMapper {
 
     @Update("update members set last_login_date = #{lastLoginDate} where member_id = #{id}")
     void login(Member member);
+
+    @Update("update members set nickname = #{nickname} , password = #{password}, status_message = #{statusMessage}, "
+            + "last_modified_date = #{lastModifiedDate}")
+    void updateMember(Member member);
 }

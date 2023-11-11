@@ -16,4 +16,5 @@ public interface MemberRepository {
 
     void login(Member member);
 
+    void updateMember(Member member);
 }

@@ -189,3 +189,18 @@ body :
 ```
 
 
+## 회원 정보 수정
+
+### Request
+
+```json
+method : PATCH
+URL : /members/my
+
+BODY
+{
+  "nickname" : "string",
+  "password" : "string",
+  "statusMessage" : "string"
+}
+```

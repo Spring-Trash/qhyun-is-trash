@@ -42,4 +42,9 @@ public class FakeMemberRepository implements MemberRepository {
     public void login(Member member) {
         database.put(member.getId(),member);
     }
+
+    @Override
+    public void updateMember(Member member) {
+        database.put(member.getId(), member);
+    }
 }

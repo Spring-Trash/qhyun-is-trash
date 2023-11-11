@@ -38,4 +38,9 @@ public class MemberRepositoryImpl implements MemberRepository {
     public void login(Member member) {
         memberMapper.login(member);
     }
+
+    @Override
+    public void updateMember(Member member) {
+        memberMapper.updateMember(member);
+    }
 }

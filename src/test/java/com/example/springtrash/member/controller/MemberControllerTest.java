@@ -5,6 +5,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doThrow;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -23,6 +24,7 @@ import com.example.springtrash.member.domain.MemberRole;
 import com.example.springtrash.member.domain.MemberStatus;
 import com.example.springtrash.member.dto.MemberCreate;
 import com.example.springtrash.member.dto.MemberLogin;
+import com.example.springtrash.member.dto.MemberUpdate;
 import com.example.springtrash.member.exception.MemberErrorCode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -324,11 +326,28 @@ class MemberControllerTest {
   @Test
   void modifyMyInfoSuccessTest() throws Exception{
       //given
+      MemberSession userInfo = MemberSession.builder()
+              .loginId("foobar")
+              .nickname("foobao")
+              .build();
 
 
+      MockHttpSession session = new MockHttpSession();
+      session.setAttribute("userInfo", userInfo);
+
+      String content = mapper.writeValueAsString(MemberUpdate.builder()
+              .nickname("asdf")
+              .password("1234")
+              .statusMessage("hello")
+              .build());
       //when
-
-
+      mvc.perform(patch("/members/my")
+              .contentType(MediaType.APPLICATION_JSON)
+              .session(session)
+              .content(content)
+      )
+              .andExpect(status().isOk())
+              .andDo(print());
       //then
 
   }

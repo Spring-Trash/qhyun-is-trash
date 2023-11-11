@@ -8,6 +8,7 @@ import com.example.springtrash.member.controller.response.MemberSession;
 import com.example.springtrash.member.domain.Member;
 import com.example.springtrash.member.dto.MemberCreate;
 import com.example.springtrash.member.dto.MemberLogin;
+import com.example.springtrash.member.dto.MemberUpdate;
 import com.example.springtrash.member.exception.MemberErrorCode;
 import com.example.springtrash.member.service.port.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -51,6 +52,19 @@ public class MemberServiceImpl implements MemberService {
     public Member retrieveMyInfo(MemberSession memberSession) {
         return memberRepository.findByLoginId(memberSession.getLoginId())
                 .orElseThrow(() -> new ServerException(ServerErrorCode.SESSION_INFO_LOST));
+    }
+
+    @Transactional
+    @Override
+    public void updateMyInfo(MemberSession session, MemberUpdate memberUpdate) {
+        Member member = memberRepository.findByLoginId(session.getLoginId())
+                .orElseThrow(() -> new RuntimeException("회원 정보가 존재하지 않습니다."));
+
+        member = member.update(memberUpdate);
+
+        memberRepository.updateMember(member);
+
+
     }
 
     private void validateJoin(MemberCreate memberCreate) {

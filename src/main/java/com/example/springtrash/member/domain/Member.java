@@ -1,6 +1,7 @@
 package com.example.springtrash.member.domain;
 
 import com.example.springtrash.member.dto.MemberCreate;
+import com.example.springtrash.member.dto.MemberUpdate;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,22 +11,22 @@ import lombok.NoArgsConstructor;
 
 @Builder
 @Getter
-@NoArgsConstructor
+//@NoArgsConstructor
 @AllArgsConstructor
 public class Member {
 
-    private Long id;
-    private String loginId;
-    private String password;
-    private String nickname;
-    private String email;
-    private String name;
-    private String statusMessage;
-    private LocalDateTime joinDate;
-    private LocalDateTime lastLoginDate;
-    private LocalDateTime lastModifiedDate;
-    private MemberRole role;
-    private MemberStatus status;
+    private final Long id;
+    private final String loginId;
+    private final String password;
+    private final String nickname;
+    private final String email;
+    private final String name;
+    private final String statusMessage;
+    private final LocalDateTime joinDate;
+    private final LocalDateTime lastLoginDate;
+    private final LocalDateTime lastModifiedDate;
+    private final MemberRole role;
+    private final MemberStatus status;
 
 
 
@@ -56,5 +57,22 @@ public class Member {
                 .lastLoginDate(LocalDateTime.now())
                 .lastModifiedDate(this.getLastModifiedDate())
                 .build();
+    }
+
+    public Member update(MemberUpdate memberUpdate) {
+        return Member.builder()
+                .loginId(this.getLoginId())
+                .email(this.getEmail())
+                .nickname(memberUpdate.getNickname())
+                .password(memberUpdate.getPassword())
+                .statusMessage(memberUpdate.getStatusMessage())
+                .name(this.getName())
+                .role(this.getRole())
+                .status(this.getStatus())
+                .joinDate(this.getJoinDate())
+                .lastLoginDate(this.getLastLoginDate())
+                .lastModifiedDate(LocalDateTime.now())
+                .build();
+
     }
 }
