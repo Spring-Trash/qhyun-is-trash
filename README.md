@@ -1,71 +1,206 @@
-# Scenario 
-200명의 사원이 근무하는 XX테크의 오너인 김현규 사장은 요즘 고민에 빠져 있다.
-직원 근태 서비스에 아무나 접근할 수 있다는 문제가 바로 그것이다.
 
-무려 1년 동안이나 해당 사실을 몰랐던 김현규 사장은
-바로 어제 직원들이 근태 서비스에 접속해 기록을 조작했다는 것을 알아냈다.
 
-너무 화가 난 김현규 사장은, 당신이 근무 중인 대한민국 일류 IT SI기업인 윤석주 컴퍼니에 의뢰를 했다.
-주요 내용은, 직원 근태 서비스를 만들되 Role배분에 따른 Page접근 권한을 확실히 하는 것이다.
 
-이번 기회에 보안이라는 것을 공부하게 된 김현규 사장은 이참에 사내 서버에 대한 보안을 강화하기로 했다.
-따라서 요구사항에 직원들의 ID, PW, 닉네임 등을 정해진 양식으로 받고 싶다는 것을 추가했다.
+# API 명세
 
-김현규 사장은 세계 일류 IT컨설팅 전문가를 섭외해 개발 결과에 대한 코드리뷰도 진행하기로 했다.
-김현규 사장의 요구사항은 아래와 같다.
-이 요구사항들을 만족하는 웹 서비스를 개발하시오.
 
-# 1. 포괄 기능 요구사항
-|요구사항|범위|수행여부|비고|
-|---|---|---|---|
-|SpringBoot Project|스프링부트 기반 웹 프로젝트|X||
-|MyBatis DB|MyBatis 기반 데이터베이스 시스템|X||
-|Login 기능|사용자의 사번, PWD를 이용|X||
-|Register 기능|사번, pwd, 이름, 주소, 이메일, 전화번호, 직급, 직무, 부서, 나이, 성별 데이터, ROLE을 기본 저장|X||
-|List 기능|Role별 사원 리스트를 확인|X||
-|Board 기능|부서별 게시판, 공지사항 게시판|X||
-|근태 관리 기능|각 사원마다 날짜별 근태여부를 저정하고 통계를 확인|X||
+## 회원 가입
 
-# 2. 세부 기능 요구사항
-|요구사항|범위|수행여부|비고|
-|---|---|---|---|
-|Login - 1|클라이언트에서 1차 사번, pwd에 대한 유효성 검사를 진행해야 한다.|X||
-|Login - 2|Filter로 사번, pwd에 대한 유효성 검사를 진행해야 한다.|X||
-|Login - 3|Filter 인증 절차를 수행하고 Session을 추가한다.|X|HttpSession 혹은 SpringSecurity를 이용한다.|
-|Login - 4|InterCeptor 및 AOP로 각 기능별 수행시간을 측정한다.|X|기능별 수행시간 1초 이내|
-|Login - 5|Login 이후 Role별 접근 가능/가시 메뉴를 설정한다.|X||
-|Register - 1|클라이언트에서 각 사원의 Attribute에 대한 유효성 검사를 진행해야 한다.|X||
-|Register - 2|email 혹은 전화번호에 대한 인증 절차를 진행해야 한다.|X||
-|Register - 3|(선택사항) google 등에 대한 로그인 연결 서비스를 제공한다.|X||
-|Register - 4|Admin, HR Team Head, Owner 권한을 가진 사용자만 Register기능을 사용할 수 있다.|X||
-|List - 1|사원~대리 직급까지는 해당 부서 내 인원의 이름과 직급만을 확인할 수 있다.|X||
-|List - 2|과장, 차장, 부장 직급까지는 해당 부서 내 자기보다 아래 직급의 세부 정보를 확인할 수 있다.|X||
-|List - 3|HR Team 인원은 모든 인원을 확인할 수 있다.|X||
-|List - 4|HR Team Head, Owner는 사원 정보를 변경할 권한을 가진다.|X||
-|List - 5|HR Team 인원은 모든 사원의 근태정보를 변경할 권한을 가진다.|X||
-|List - 6|HR Team이 아닌 부서의 인원은 자신의 근태정보만을 확인할 수 있다.|X||
-|List - 7|모든 사원은 공통적으로 출근, 퇴근 기능을 사용하며, 09:00~18:00을 근무시간으로 잡아 지각, 조퇴를 판단한다.|X||
-|List - 8|모든 사원은 오전근무, 오후근무를 이용할 수 있으며, 사유가 있어야 한다.|X||
-|List - 9|모든 사원은 본인의 연차를 확인할 수 있어야 하며, 연차를 사용하여 휴가를 보낼 수 있다.|X||
+### Request
 
-# 참조
-XX테크의 정보는 아래와 같다.
-직급 : 사장 - 이사 - 팀장(HEAD) - 차장 - 과장 - 대리 - 주임 - 사원
-부서 : 경영지원, 회계감사, HR, 생산, 품질, 개발, 소프트웨어
+```json
+Method : Post
+URL : /members
 
-# 3. 비기능 요구사항
-|요구사항|범위|수행여부|비고|
-|---|---|---|---|
-|응답시간|모든 요청에 대해 2초 이내|X||
-|정보 범주|사이트 내에서 사용되는 모든 정보에 대해 분쟁 요소가 없어야 한다|X||
-|UI|클라이언트가 납득할 만한 UI|X||
+body:
 
-# 4. 실행환경
-|실행환경|비고|
-|---|---|
-|Windows10 Under, RHEL, CentOS중 하나에서 동작하는 서버여야 함||
-|총 메모리 사용량이 16GB이내여야 함||
-|총 저장소 사용량이 128GB이내여야 함||
+{
+  "loginId" : "string",
+  "password" : "string",
+  "email" : "string",
+  "name" : "string",
+  "nickname" : "string"
+}
 
-# 마감기한
-프로젝트 실행일로부터 2주 이내
+```
+
+### Response
+
+#### Basic
+```json
+Status : 201 (created)
+body : null
+```
+
+
+#### A1 - 필드의 Validation을 통과하지 못했을 때
+```json
+status : 400 (bad request)
+body : 
+{
+ "timestamp" : "발생 시간 ex ) 2023-01-01T00:00:01"
+ "status" : 400
+ "error" : "FieldValidationException"
+ "code" : "G-001"
+ "message" : "입력하신 내용을 다시 확인해주세요."
+ "path" : "/members"
+}
+
+```
+
+#### A2 - 중복된 loginId를 이용할 때
+```json
+status : 409 (conflict)
+body :
+{
+"timestamp" : "발생 시간 ex ) 2023-01-01T00:00:01"
+"status" : 409
+"error" : "LoginIdDuplicatedException"
+"code" : "M-001"
+"message" : "로그인 아이디가 중복됩니다."
+"path" : "/members"
+}
+```
+
+
+
+## 로그인
+
+### Request
+```json
+Method : Post
+URL : /members/login
+Body : 
+{
+  "loginId" : "String",
+  "password" : "string"
+}
+
+```
+
+### Response
+
+#### Basic Path
+
+```json
+status : 200 (OK)
+body : null
+```
+
+#### A1 id, password가 유효성 검사를 통과하지 못했을 때
+```json
+status : 400 (bad request)
+body :
+{
+    "timestamp" : "발생 시간 ex ) 2023-01-01T00:00:01"
+    "status" : 400
+    "error" : "FieldValidationException"
+    "code" : "G-001"
+    "message" : "입력하신 내용을 다시 확인해주세요."
+    "path" : "/members/login"
+}
+
+```
+
+
+#### A2. Id 혹은 Password가 알맞지 않았을 때 
+
+```json
+status : 409 (conflict)
+body :
+{
+    "timestamp" : "발생 시간 ex ) 2023-01-01T00:00:01"
+    "status" : 409
+    "error" : "WrongIdOrPasswordException"
+    "code" : "M-002"
+    "message" : "아이디 혹은 패스워드가 틀렸습니다."
+    "path" : "/members/login"
+}
+
+```
+
+
+
+## 회원 정보 수정
+
+
+
+
+
+
+## 내 정보 조회
+
+### Request
+```json
+    Method : GET
+    URL : /members/my
+    
+```
+
+### Response
+
+#### Basic Path
+
+```json
+status : 200 (OK)
+body :
+{
+  "loginId" : "string",
+  "password" : "string",
+  "name" : "string",
+  "nickname" : "string",
+  "statusMessage" : "string"
+}
+
+```
+
+#### A1. 세션 정보가 없는 상태로 접근했을 때
+
+```json
+status : 401 (UnAuthorized)
+body :
+{
+  "timestamp" : "발생 시간 ex ) 2023-01-01T00:00:01"
+  "status" : 401
+  "error" : "UN_AUTHORIZED_ACCESS"
+  "code" : "G-002"
+  "message" : "인증되지 않은 접근입니다."
+  "path" : "/members/my"
+}
+
+```
+
+
+
+#### E1. 세션 정보가 DB에 조회되지 못했을 경우
+
+```json
+status : 401 (UnAuthorized)
+body :
+{
+  "timestamp" : "발생 시간 ex ) 2023-01-01T00:00:01"
+  "status" : 401
+  "error" : "UN_AUTHORIZED_ACCESS"
+  "code" : "G-002"
+  "message" : "인증되지 않은 접근입니다."
+  "path" : "/members/my"
+}
+
+```
+
+
+## 회원 정보 수정
+
+### Request
+
+```json
+method : PATCH
+URL : /members/my
+
+BODY
+{
+  "nickname" : "string",
+  "password" : "string",
+  "statusMessage" : "string"
+}
+```
